@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="AcceptanceTestSuite" verbose="1">
+    <parameter name="baseUrl" value="http://localhost:8080"/>
+    <!--<parameter name="environment" value="LOCAL" />-->
+    <test name="Acceptance">
+        <groups>
+            <run>
+                <include name="acceptance"/>
+                <exclude name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="org.hcs.profile.ws.v1.acceptance.*"/>
+        </packages>
+    </test>
+</suite>

@@ -1,0 +1,8 @@
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\exceptions\ProfileNotFoundException.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\exceptions\ProfileConflictException.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\exceptions\ProfileInternalException.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\exceptions\ProfileInvalidRequestException.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\entities\ProfileUserEntity.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\repositories\ProfileUserRepo.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\exceptions\ProfileAlreadyExistsException.java
+C:\opt\sandbox\hcs-profile\persistence\src\main\java\org\hcs\managers\StringUtils.java
