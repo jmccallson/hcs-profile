@@ -1,4 +1,0 @@
-org\hcs\ProfileUserService.class
-org\hcs\UserProfileService.class
-org\hcs\exceptions\ProfileExpiredSessionException.class
-org\hcs\exceptions\ProfileUnauthorizedException.class
