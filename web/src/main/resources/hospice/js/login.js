@@ -35,16 +35,16 @@ loginBtn.addEventListener('click',
     function(){
         try{
             if(pswStr.length > 0 && usrnameStr.length > 0){
-               form = document.getElementById("load");
-               form.action = "agent"
+                action = function(){
+                    window.location.replace('agent');
+                };
+                putRequests("/userprofile", action)
             }
         }catch(ex){
             alert(ex.message)
         }
     }
 );
-
-
 
 function myFunction() {
     var x = document.getElementById("psw");

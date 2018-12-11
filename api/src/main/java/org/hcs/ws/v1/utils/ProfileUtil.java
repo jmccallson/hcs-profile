@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.hcs.entities.ProfileUserEntity;
+import org.hcs.entities.ProfileUserDAO;
 import org.hcs.exceptions.ProfileInternalException;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class ProfileUtil {
     return adminSessionId;
   }
 
-  public static String profileUserDataToJson(ProfileUserEntity profileUserEntity){
+  public static String profileUserDataToJson(ProfileUserDAO profileUserEntity){
     ObjectMapper mapper = new ObjectMapper();
     String jsonStr;
     try {
@@ -52,12 +52,12 @@ public class ProfileUtil {
     return jsonStr;
   }
 
-  public static ProfileUserEntity jsonToProfileUserData(String payload){
+  public static ProfileUserDAO jsonToProfileUserData(String payload){
     ObjectMapper mapper = new ObjectMapper();
-    ProfileUserEntity profileUserEntity;
+    ProfileUserDAO profileUserEntity;
     try {
       JsonNode root = mapper.readTree(payload);
-      profileUserEntity = mapper.treeToValue(root, ProfileUserEntity.class);
+      profileUserEntity = mapper.treeToValue(root, ProfileUserDAO.class);
     } catch (IOException e) {
       throw new ProfileInternalException("Unable to convert json to object", e);
     }

@@ -1,6 +1,6 @@
 package org.hcs.repositories;
 
-import org.hcs.entities.ProfileUserEntity;
+import org.hcs.entities.ProfileUserDAO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -16,38 +16,32 @@ public class ProfileUserRepo {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  public Long create(ProfileUserEntity profileUserEntity){
+  public Long create(ProfileUserDAO profileUserEntity){
     Long userId;
     String sql = "insert into profile_user ( " +
       "user_id, " +
-      "contact_name, " +
-      "contact_name_lc, " +
-      "create_date," +
-      "update_date, " +
       "login_name, " +
       "login_name_lc, " +
       "first_name, " +
       "first_name_nls, " +
       "last_name, " +
       "last_name_nls, " +
-      "display_name, " +
+      "job_title, " +
       "email, " +
       "email_lc, " +
       "email_verify, " +
       "country, " +
       "deleted_date, " +
       "account_type, " +
+      "create_date," +
+      "update_date, " +
       "enabled, " +
-      "phone_number) values(?,?,Lower(?),?,?,?,Lower(?),?,?,?,?,?,?,Lower(?),?,?,?,?,?,?)";
+      "phone_number) values(?,?,Lower(?),?,?,?,?,?,?,Lower(?),?,?,?,?,?,?,?,?)";
 
     userId = jdbcTemplate.queryForObject("select nextval('SEQ_PROFILE_USER')", Long.class);
     jdbcTemplate.update(
       sql,
       userId,
-      profileUserEntity.getContactName(),
-      profileUserEntity.getContactName(),
-      profileUserEntity.getCreateDate(),
-      profileUserEntity.getUpdateDate(),
       profileUserEntity.getLoginName(),
       profileUserEntity.getLoginName(),
       profileUserEntity.getFirstName(),
@@ -61,15 +55,17 @@ public class ProfileUserRepo {
       profileUserEntity.getCountry(),
       profileUserEntity.getDeletedDate(),
       profileUserEntity.getAccountType(),
+      profileUserEntity.getCreateDate(),
+      profileUserEntity.getUpdateDate(),
       profileUserEntity.getEnabled()
     );
     return userId;
   }
 
-  static final class ProfileUserMapper implements RowMapper<ProfileUserEntity>{
+  static final class ProfileUserMapper implements RowMapper<ProfileUserDAO>{
     @Override
-    public ProfileUserEntity mapRow(ResultSet resultSet, int i) throws SQLException {
-      ProfileUserEntity profileUserEntity = new ProfileUserEntity();
+    public ProfileUserDAO mapRow(ResultSet resultSet, int i) throws SQLException {
+      ProfileUserDAO profileUserEntity = new ProfileUserDAO();
       profileUserEntity.setUserId(resultSet.getLong("USER_ID"));
       profileUserEntity.setContactName(resultSet.getString("CONTACT_NAME"));
       profileUserEntity.setContactNameLc(resultSet.getString("CONTACT_NAME_LC"));

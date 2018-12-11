@@ -6,7 +6,7 @@ import net.logstash.logback.marker.LogstashMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hcs.ProfileUserService;
-import org.hcs.entities.ProfileUserEntity;
+import org.hcs.entities.ProfileUserDAO;
 import org.hcs.exceptions.*;
 import org.hcs.ws.v1.utils.ProfileUtil;
 import org.springframework.http.HttpStatus;
@@ -48,9 +48,9 @@ public class ProfileUserController {
   @RequestMapping(value = "/userprofile",  method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<Object> createUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
-                                                  @RequestBody ProfileUserEntity profileUserEntity,
+                                                  @RequestBody ProfileUserDAO profileUserEntity,
                                                   WebRequest request)
-    throws ProfileExpiredSessionException, ProfileInvalidRequestException, ProfileNotFoundException, ProfileUnauthorizedException, ProfileConflictException {
+    throws ProfileExpiredSessionException, ProfileInvalidRequestException, ProfileNotFoundException, ProfileUnauthorizedException, ProfileAlreadyExistsException {
     String sessionId = ProfileUtil.getBearerToken(authHeader);
     if(sessionId == null || sessionId.isEmpty()){
       throw new ProfileExpiredSessionException(NO_SESSION_ELEMENT_FOUND, new Throwable(ProfileUtil.UNAUTHORIZED_CONDITION_MSG));
@@ -59,7 +59,7 @@ public class ProfileUserController {
     if(null == profileUserEntity){
       throw new ProfileInvalidRequestException("Request body is null", new Throwable(ProfileUtil.INVALID_RQST_CONDITION_MSG));
     }
-    ProfileUserEntity newProfileUserData = profileUserService.create(sessionId, profileUserEntity);
+    ProfileUserDAO newProfileUserData = profileUserService.create(sessionId, profileUserEntity);
 
     String userAgent = request.getHeader(USER_AGENT);
     String userAgentChain = request.getHeader(USER_AGENT_CHAIN);
@@ -68,13 +68,70 @@ public class ProfileUserController {
     return new ResponseEntity<>(newProfileUserData, HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/userprofile/{userId}",  method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public void getUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
+                             @PathVariable String userId,
+                             WebRequest request)
+    throws ProfileExpiredSessionException
+  {
+    String sessionId = ProfileUtil.getBearerToken(authHeader);
+    if (sessionId == null || sessionId.isEmpty()) {
+      throw new ProfileExpiredSessionException(NO_SESSION_ELEMENT_FOUND, new Throwable(ProfileUtil.UNAUTHORIZED_CONDITION_MSG));
+    }
+  }
+
+  @StatusCodes({
+    @ResponseCode(code = HttpURLConnection.HTTP_OK, condition = ProfileUtil.OK_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_BAD_REQUEST, condition = ProfileUtil.INVALID_RQST_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_UNAUTHORIZED, condition = ProfileUtil.UNAUTHORIZED_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_NOT_FOUND, condition = ProfileUtil.USER_NOT_FOUND_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_INTERNAL_ERROR, condition = ProfileUtil.INTERNAL_ERR_CONDITION_MSG)
+  })
+
+  @RequestMapping(value = "/userprofile/{userId}",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public void updateUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
+                                @PathVariable String userId,
+                                @RequestBody ProfileUserDAO profileUserDAO,
+                                WebRequest request)
+    throws ProfileExpiredSessionException
+  {
+    String sessionId = ProfileUtil.getBearerToken(authHeader);
+    if (sessionId == null || sessionId.isEmpty()) {
+      throw new ProfileExpiredSessionException(NO_SESSION_ELEMENT_FOUND, new Throwable(ProfileUtil.UNAUTHORIZED_CONDITION_MSG));
+    }
+  }
+
+  /**
+   * @param authHeader "Authorization Bearer {sessionId}" as defined in rfc6750
+   */
+  @StatusCodes({
+    @ResponseCode(code = HttpURLConnection.HTTP_OK, condition = ProfileUtil.OK_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_BAD_REQUEST, condition = ProfileUtil.INVALID_RQST_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_UNAUTHORIZED, condition = ProfileUtil.UNAUTHORIZED_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_NOT_FOUND, condition = ProfileUtil.USER_NOT_FOUND_CONDITION_MSG),
+    @ResponseCode(code = HttpURLConnection.HTTP_INTERNAL_ERROR, condition = ProfileUtil.INTERNAL_ERR_CONDITION_MSG)
+  })
+
+  @RequestMapping(value = "/userprofile/{userId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public void deleteUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
+                                @PathVariable("userId") String userId,
+                                WebRequest request) throws ProfileExpiredSessionException {
+
+    String sessionId = ProfileUtil.getBearerToken(authHeader);
+    if (sessionId == null || sessionId.isEmpty()) {
+      throw new ProfileExpiredSessionException(NO_SESSION_ELEMENT_FOUND, new Throwable(ProfileUtil.UNAUTHORIZED_CONDITION_MSG));
+    }
+  }
+
   @ExceptionHandler(value = {
     ProfileExpiredSessionException.class,
     ProfileInternalException.class,
     ProfileUnauthorizedException.class,
     ProfileInvalidRequestException.class,
     ProfileNotFoundException.class,
-    ProfileConflictException.class,
+    ProfileAlreadyExistsException.class,
     RuntimeException.class})
   @ResponseBody
   private ResponseEntity<String> handleExceptionsWithHttpResponse(Exception exception, HttpServletRequest request, HttpServletResponse response ) {
