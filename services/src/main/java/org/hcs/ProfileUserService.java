@@ -1,6 +1,6 @@
 package org.hcs;
 
-import org.hcs.entities.ProfileUserEntity;
+import org.hcs.entities.ProfileUserDAO;
 import org.hcs.repositories.ProfileUserRepo;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ public class ProfileUserService {
   public ProfileUserService(ProfileUserRepo profileUserRepo){
     this.profileUserRepo = profileUserRepo;
   }
-  public ProfileUserEntity create(String sessionId, ProfileUserEntity profileUserEntity){
+  public ProfileUserDAO create(String sessionId, ProfileUserDAO profileUserEntity){
     Long userId = profileUserRepo.create(profileUserEntity);
     profileUserEntity.setUserId(userId);
     return profileUserEntity;

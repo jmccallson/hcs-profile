@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="css/login.css">
+  <link rel="stylesheet" type="text/css" href="css/login.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script language="JavaScript1.2" type="text/javascript" src="hospice/js/ajaxrequesters.js"></script>
 </head>
 <body>
 
@@ -22,14 +24,14 @@
 	  <span class="psw"><a href="#" class="psw">Forgot password?</a></span>
       <input type="password" name="passwordInput" id="passwordInput" required>
 	  <input type="checkbox" onclick="myFunction()">Show Password
-      <button id="loginBtn" type="submit"></button>
+      <button id="loginBtn" type="button"></button>
       <label>
         <input type="checkbox" name="remember"> Remember me
       </label>
     </div>
 
     <div class="container">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <button type="button" id="cancelBtn" class="cancelbtn">Cancel</button>
     </div>
   </form>
   <div class="modal-content-news animate">

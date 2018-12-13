@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hcs-profile-acceptance</artifactId>
+    <artifactId>hcs-profile-acceptence</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -130,6 +130,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>

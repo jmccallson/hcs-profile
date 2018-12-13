@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 
 @Component
-public class ProfileUserEntity {
+public class ProfileUserDAO {
   private Long userId;
   private String contactName;
   private String contactNameLc;

@@ -51,7 +51,7 @@ public class ExceptionHandler {
       error = exception.getMessage();
 
     }
-    else if (exception instanceof ProfileConflictException) {
+    else if (exception instanceof ProfileAlreadyExistsException) {
       status = HttpStatus.CONFLICT;
       error = exception.getMessage();
 
