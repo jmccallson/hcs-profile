@@ -39,7 +39,7 @@ CREATE TABLE profile_user_detail
     email_lc character varying(320) COLLATE pg_catalog."default",
     email_verify boolean  DEFAULT 'F'::boolean,
     CONSTRAINT pk_profile_user_detail PRIMARY KEY (user_detail_id),
-    CONSTRAINT chk_profile_user_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean])),
+    CONSTRAINT chk_profile_user_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean]))
 );
 
 CREATE SEQUENCE SEQ_PROFILE_USER_DETAIL START WITH 1000;
@@ -48,7 +48,7 @@ CREATE TABLE profile_user2detail
 (
     user_id bigint NOT NULL,
     user_detail_id bigint NOT NULL,
-    CONSTRAINT user_id_account_pk PRIMARY KEY (user_id, user_detail_id),
+    CONSTRAINT user_id_detail_pk PRIMARY KEY (user_id, user_detail_id),
     CONSTRAINT user_id_fk FOREIGN KEY (user_id)
             REFERENCES profile_user (user_id) MATCH SIMPLE
             ON UPDATE NO ACTION
@@ -76,9 +76,9 @@ CREATE TABLE profile_agency
     email character varying(320) COLLATE pg_catalog."default",
     email_lc character varying(320) COLLATE pg_catalog."default",
     email_verify boolean  DEFAULT 'F'::boolean,
-    CONSTRAINT pk_profile_user_detail PRIMARY KEY (user_detail_id),
+    CONSTRAINT pk_profile_agency PRIMARY KEY (agency_id),
     CONSTRAINT uk_profile_agency_name_lc UNIQUE (name_lc),
-    CONSTRAINT chk_profile_user_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean])),
+    CONSTRAINT chk_profile_user_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean]))
 );
 
 CREATE SEQUENCE SEQ_PROFILE_AGENCY START WITH 1000;
@@ -87,7 +87,7 @@ CREATE TABLE profile_user2agency
 (
     user_id bigint NOT NULL,
     agency_id bigint NOT NULL,
-    CONSTRAINT user_id_account_pk PRIMARY KEY (user_id, agency_id),
+    CONSTRAINT user_id_agency_pk PRIMARY KEY (user_id, agency_id),
     CONSTRAINT user_id_fk FOREIGN KEY (user_id)
             REFERENCES profile_user (user_id) MATCH SIMPLE
             ON UPDATE NO ACTION
@@ -102,6 +102,7 @@ CREATE TABLE profile_password_recover
 (
     pwd_rcvr_id bigint NOT NULL,
     user_id character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    login_name_lc character varying(120) COLLATE pg_catalog."default" NOT NULL,
     expire timestamp without time zone DEFAULT now(),
     security character varying(20) COLLATE pg_catalog."default" NOT NULL,
     allow character varying(100) COLLATE pg_catalog."default",

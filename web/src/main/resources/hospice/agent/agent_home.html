@@ -2,7 +2,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="hospice/css/agent.css">
+    <link rel="stylesheet" type="text/css" href="hospice/css/accordions.css">
+    <link rel="stylesheet" type="text/css" href="hospice/css/layouts.css">
+    <link rel="stylesheet" type="text/css" href="hospice/css/tabs.css">
 </head>
 <body>
   <div class="header">
@@ -32,33 +36,32 @@
 
   <div id="container" class="container">
       <div id="tabs">
-      <button class="tablink" onclick="openPage('documentcontent', this, 'red')" id="document">Documents</button>
-      <!--<button class="tablink" onclick="openPage('News', this, 'green')" id="defaultOpen">News</button>
-      <button class="tablink" onclick="openPage('Contact', this, 'blue')">Contact</button>
-      <button class="tablink" onclick="openPage('About', this, 'orange')">About</button>
-      -->
+      <button id="tabagent" class="tablink" onclick="openPage('agent', this, '#3377ff')" >Agent</button>
       </div>
-      <div id="documentcontent" class="tabcontent">
-          <h3>Home</h3>
-          <p>Home is where the heart is..</p>
+      <div id="agent" class="left-tab-container">
+          <div id="filter-tab-content" class="left-tab-content box-set">
+              <div id="filter-div" class="filter">
+                  <button id="filter-button" class="accordion-left">Filters</button>
+                  <div id="filter-panel" class="panel">
+                      some text
+                  </div>
+              </div>
+              <!--div class="box-1">
+                  <button class="accordion">Filters</button>
+                  <div class="panel">
+                      some more text
+                  </div>
+                  <button class="accordion">Filters</button>
+                  <div class="panel">
+                      no text at all
+                  </div>
+              </div-->
+          </div>
       </div>
 
-      <div id="documentcontent5678" class="tabcontent">
-          <h3>News</h3>
-          <p>Some news this fine day!</p>
-      </div>
-
-      <div id="documentcontent9012" class="tabcontent">
-          <h3>Contact</h3>
-          <p>Get in touch, or swing by for a cup of coffee.</p>
-      </div>
-
-      <div id="documentcontent3456" class="tabcontent">
-          <h3>About</h3>
-          <p>Who we are and what we do.</p>
-      </div>
   </div>
 </body>
 </html>
 <script language="JavaScript1.2" type="text/javascript" src="hospice/js/agent.js"></script>
 <script language="JavaScript1.2" type="text/javascript" src="hospice/js/html/tabs.js"></script>
+<script language="JavaScript1.2" type="text/javascript" src="hospice/js/html/accordions.js"></script>
