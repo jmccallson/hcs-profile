@@ -1,0 +1,35 @@
+.box-set {
+  background: #fff;
+}
+
+.filter {
+  /*background: #cdb;*/
+  float: left;
+  width: auto;
+}
+
+.forms {
+  /*background: #cdb;*/
+  float: left;
+  width: auto;
+}
+
+.profile {
+  /*background: #cdb;*/
+  float: right;
+  width: auto;
+}
+
+.box-2 {
+  background: #2db34a;
+  float: left;
+  margin: 3px;
+  width: 90%;
+}
+
+.box-3 {
+  background: #2db34a;
+  float: left;
+  margin: 1.858736059%;
+  width: 29.615861214%;
+}
