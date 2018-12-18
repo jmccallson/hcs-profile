@@ -32,7 +32,7 @@
                   <sourcepath-includes>
                       <sourcepath-include>
                           <!-- Include the "com.external:external" artifact on the sourcepath. -->
-                          <groupId>org.hcsy</groupId>
+                          <groupId>org.hcs</groupId>
                       </sourcepath-include>
                   </sourcepath-includes>
                   <!-- Needed for spring boot runnable jars -->
