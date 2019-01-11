@@ -159,4 +159,28 @@ public class ProfileUserDao {
   public void setDisplayName(String displayName) {
     this.displayName = displayName;
   }
+
+  public List<ProfilePatientDao> getProfilePatientDaos() {
+    return profilePatientDaos;
+  }
+
+  public void setProfilePatientDaos(List<ProfilePatientDao> profilePatientDaos) {
+    this.profilePatientDaos = profilePatientDaos;
+  }
+
+  public List<ProfileAgencyDao> getProfileAgencyDaos() {
+    return profileAgencyDaos;
+  }
+
+  public void setProfileAgencyDaos(List<ProfileAgencyDao> profileAgencyDaos) {
+    this.profileAgencyDaos = profileAgencyDaos;
+  }
+
+  public List<ProfileFormsDao> getProfileFormsDaos() {
+    return profileFormsDaos;
+  }
+
+  public void setProfileFormsDaos(List<ProfileFormsDao> profileFormsDaos) {
+    this.profileFormsDaos = profileFormsDaos;
+  }
 }

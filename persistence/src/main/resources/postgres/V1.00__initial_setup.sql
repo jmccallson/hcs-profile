@@ -68,7 +68,7 @@ CREATE TABLE profile_agency
     suite_apt character varying(120) COLLATE pg_catalog."default",
     city character varying(120) COLLATE pg_catalog."default",
     state character varying(120) COLLATE pg_catalog."default",
-    state_abbreviation character varying(3) COLLATE pg_catalog."default",
+    state_abbr character varying(3) COLLATE pg_catalog."default",
     zip_code character varying(20) COLLATE pg_catalog."default",
     phone character varying(12) COLLATE pg_catalog."default",
     cell character varying(12) COLLATE pg_catalog."default",
@@ -120,39 +120,57 @@ CREATE TABLE profile_password_recover
 
 CREATE SEQUENCE SEQ_PASSWORD_RECOVER START WITH 1000;
 
-
 CREATE TABLE profile_patient
 (
     patient_id bigint NOT NULL,
-    first_name character varying(120) COLLATE pg_catalog."default",
-    first_name_nls character varying(240) COLLATE pg_catalog."default",
-    last_name character varying(120) COLLATE pg_catalog."default",
-    last_name_nls character varying(240) COLLATE pg_catalog."default",
-    medical character varying(245) COLLATE pg_catalog."default",
-    email character varying(320) COLLATE pg_catalog."default",
-    email_lc character varying(320) COLLATE pg_catalog."default",
-    country character varying(128) COLLATE pg_catalog."default",
-    email_verify boolean  DEFAULT 'F'::boolean,
-    deleted_date timestamp without time zone,
+    first_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    first_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    last_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    middle_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    middle_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    medical_record character varying(245) COLLATE pg_catalog."default",
+    suite_apt character varying(25) COLLATE pg_catalog."default",
+    city character varying(120) COLLATE pg_catalog."default",
+    state character varying(120) COLLATE pg_catalog."default",
+    state_abbr character varying(3) COLLATE pg_catalog."default",
+    zip_code character varying(20) COLLATE pg_catalog."default",
+    veteran boolean  DEFAULT 'F'::boolean,
+    birth_date timestamp without time zone NOT NULL,
+    death_date timestamp without time zone,
+    ssn character varying(9) COLLATE pg_catalog."default" NOT NULL,
+    phone character varying(12) COLLATE pg_catalog."default",
+    cell character varying(12) COLLATE pg_catalog."default",
+    gender character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    marital_status character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    lang character varying(5) COLLATE pg_catalog."default",
+    ethnicity character varying(5) COLLATE pg_catalog."default",
+    status_code character varying(5) COLLATE pg_catalog."default",
+    patient_lives character varying(200) COLLATE pg_catalog."default",
+    commentType character varying(10) COLLATE pg_catalog."default",
+    comments character varying(2000) COLLATE pg_catalog."default",
     image_url character varying(2000) COLLATE pg_catalog."default",
-    account_type character varying(20) COLLATE pg_catalog."default",
     enabled character varying(1) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT pk_profile_patient PRIMARY KEY (patient_id),
-    CONSTRAINT chk_profile_patient_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean])),
+    CONSTRAINT chk_profile_patient_veteran CHECK (veteran::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean])),
+    CONSTRAINT chk_profile_patient_gender CHECK (gender::text = ANY (ARRAY['M'::character varying::text, 'F'::character varying::text])),
+    CONSTRAINT chk_profile_patient_marital_status CHECK (enabled::text = ANY (ARRAY['T'::character varying::text, 'F'::character varying::text, 'U'::character varying::text])),
     CONSTRAINT chk_profile_patient_enabled CHECK (enabled::text = ANY (ARRAY['T'::character varying::text, 'F'::character varying::text, 'D﻿'::character varying::text]))
 );
+
+CREATE SEQUENCE SEQ_PATIENT START WITH 1000;
 
 CREATE TABLE profile_user2patient
 (
     user_id bigint NOT NULL,
     patient_id bigint NOT NULL,
-    CONSTRAINT user_id_forms_pk PRIMARY KEY (user_id, patient_id),
+    CONSTRAINT user_id_patient_pk PRIMARY KEY (user_id, patient_id),
     CONSTRAINT user_id_fk FOREIGN KEY (user_id)
             REFERENCES profile_user (user_id) MATCH SIMPLE
             ON UPDATE NO ACTION
             ON DELETE CASCADE,
         CONSTRAINT patient_fk FOREIGN KEY (patient_id)
-            REFERENCES profile_user2pat (patient_id) MATCH SIMPLE
+            REFERENCES profile_patient (patient_id) MATCH SIMPLE
             ON UPDATE NO ACTION
     ON DELETE CASCADE
 );
@@ -179,6 +197,132 @@ CREATE TABLE profile_user2forms
             ON DELETE CASCADE,
         CONSTRAINT forms_fk FOREIGN KEY (form_id)
             REFERENCES profile_forms (form_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+    ON DELETE CASCADE
+);
+
+CREATE TABLE profile_patient2forms
+(
+    patient_id bigint NOT NULL,
+    form_id bigint NOT NULL,
+    CONSTRAINT patient_id_forms_pk PRIMARY KEY (patient_id, form_id),
+    CONSTRAINT patient_id_fk FOREIGN KEY (patient_id)
+            REFERENCES profile_patient (patient_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE CASCADE,
+        CONSTRAINT forms_fk FOREIGN KEY (form_id)
+            REFERENCES profile_forms (form_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+    ON DELETE CASCADE
+);
+
+CREATE TABLE profile_allergies
+(
+    allergy_id bigint NOT NULL,
+    name character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    enabled character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_profile_allergies PRIMARY KEY (allergy_id),
+    CONSTRAINT chk_profile_allergies_enabled CHECK (enabled::text = ANY (ARRAY['T'::character varying::text, 'F'::character varying::text, 'D﻿'::character varying::text]))
+);
+
+CREATE SEQUENCE SEQ_ALLERGY START WITH 1000;
+
+CREATE TABLE profile_patient2allergy
+(
+    patient_id bigint NOT NULL,
+    allergy_id bigint NOT NULL,
+    CONSTRAINT patient_id_allergy_pk PRIMARY KEY (patient_id, allergy_id),
+    CONSTRAINT patient_id_fk FOREIGN KEY (patient_id)
+            REFERENCES profile_patient (patient_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE CASCADE,
+        CONSTRAINT allergy_fk FOREIGN KEY (allergy_id)
+            REFERENCES profile_allergies (allergy_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+    ON DELETE CASCADE
+);
+
+CREATE TABLE profile_cahps
+(
+    cahp_id bigint NOT NULL,
+    first_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    first_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    last_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    middle_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    middle_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    suite_apt character varying(25) COLLATE pg_catalog."default",
+    city character varying(120) COLLATE pg_catalog."default",
+    state character varying(120) COLLATE pg_catalog."default",
+    state_abbr character varying(3) COLLATE pg_catalog."default",
+    zip_code character varying(20) COLLATE pg_catalog."default",
+    phone character varying(12) COLLATE pg_catalog."default",
+    cell character varying(12) COLLATE pg_catalog."default",
+    email character varying(320) COLLATE pg_catalog."default",
+    email_lc character varying(320) COLLATE pg_catalog."default",
+    email_verify boolean  DEFAULT 'F'::boolean,
+    lang character varying(5) COLLATE pg_catalog."default",
+    relationship character varying(200) COLLATE pg_catalog."default",
+    enabled character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_profile_cahps PRIMARY KEY (cahp_id),
+    CONSTRAINT chk_profile_cahps_email_verify CHECK (email_verify::boolean = ANY (ARRAY['T'::boolean::boolean, 'F'::boolean::boolean])),
+    CONSTRAINT chk_profile_cahps_enabled CHECK (enabled::text = ANY (ARRAY['T'::character varying::text, 'F'::character varying::text, 'D﻿'::character varying::text]))
+);
+
+CREATE SEQUENCE SEQ_CAHP START WITH 1000;
+
+CREATE TABLE profile_patient2cahps
+(
+    patient_id bigint NOT NULL,
+    cahp_id bigint NOT NULL,
+    CONSTRAINT patient_id_cahps_pk PRIMARY KEY (patient_id, cahp_id),
+    CONSTRAINT patient_id_fk FOREIGN KEY (patient_id)
+            REFERENCES profile_patient (patient_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE CASCADE,
+        CONSTRAINT cahps_fk FOREIGN KEY (cahp_id)
+            REFERENCES profile_cahps (cahp_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+    ON DELETE CASCADE
+);
+
+CREATE TABLE profile_er_contact
+(
+    er_contact_id bigint NOT NULL,
+    first_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    first_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    last_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    middle_name character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    middle_name_lc character varying(240) COLLATE pg_catalog."default" NOT NULL,
+    suite_apt character varying(25) COLLATE pg_catalog."default",
+    city character varying(120) COLLATE pg_catalog."default",
+    state character varying(120) COLLATE pg_catalog."default",
+    state_abbr character varying(3) COLLATE pg_catalog."default",
+    zip_code character varying(20) COLLATE pg_catalog."default",
+    phone character varying(12) COLLATE pg_catalog."default",
+    cell character varying(12) COLLATE pg_catalog."default",
+    priority_code character varying(5) COLLATE pg_catalog."default",
+    relationship character varying(200) COLLATE pg_catalog."default",
+    comments character varying(2000) COLLATE pg_catalog."default",
+    enabled character varying(1) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_profile_er_contact PRIMARY KEY (er_contact_id),
+    CONSTRAINT chk_profile_er_contact_enabled CHECK (enabled::text = ANY (ARRAY['T'::character varying::text, 'F'::character varying::text, 'D﻿'::character varying::text]))
+);
+
+CREATE SEQUENCE SEQ_ER_CONTACT START WITH 1000;
+
+CREATE TABLE profile_patient2er_contact
+(
+    patient_id bigint NOT NULL,
+    er_contact_id bigint NOT NULL,
+    CONSTRAINT patient_id_er_pk PRIMARY KEY (patient_id, er_contact_id),
+    CONSTRAINT patient_id_fk FOREIGN KEY (patient_id)
+            REFERENCES profile_patient (patient_id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE CASCADE,
+        CONSTRAINT er_fk FOREIGN KEY (er_contact_id)
+            REFERENCES profile_er_contact (er_contact_id) MATCH SIMPLE
             ON UPDATE NO ACTION
     ON DELETE CASCADE
 );

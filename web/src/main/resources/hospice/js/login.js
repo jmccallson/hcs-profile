@@ -3,12 +3,11 @@ var passwordInput = document.getElementById("passwordInput");
 var loginBtn = document.getElementById("loginBtn");
 
 /* user name */
-var usrnameStr = new String();
 usernameInput.setAttribute("placeholder", "Enter Username");
 usernameInput.addEventListener('keyup',
     function(){
         try{
-            usrnameStr = usernameInput.value;
+            profileUserEntity.loginName = usernameInput.value;
         } catch(ex){
             alert(ex.message)
         }
@@ -16,12 +15,11 @@ usernameInput.addEventListener('keyup',
 );
 
 /* password */
-var pswStr = new String();
 passwordInput.setAttribute("placeholder", "Enter Password");
 passwordInput.addEventListener('keyup',
     function(){
         try{
-            pswStr = passwordInput.value;
+            profileUserEntity.password = passwordInput.value;
         } catch(ex){
             alert(ex.message)
         }
@@ -34,11 +32,11 @@ loginBtn.appendChild(txtLoginBtn);
 loginBtn.addEventListener('click',
     function(){
         try{
-            if(pswStr.length > 0 && usrnameStr.length > 0){
+            if(profileUserEntity.password.length > 0 && profileUserEntity.loginName.length > 0){
                 action = function(){
                     window.location.replace('clinician');
                 };
-                putRequests("/userprofile", action)
+                postRequests("login", action)
             }
         }catch(ex){
             alert(ex.message)

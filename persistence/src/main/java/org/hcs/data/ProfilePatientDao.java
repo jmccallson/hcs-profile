@@ -19,21 +19,23 @@ public class ProfilePatientDao {
   private String city;
   private String state;
   private String zipCode;
-  private Enabled veteran;
+  private Enabled veteran = Enabled.UNSET;
   private Timestamp birthDate;
   private Timestamp deathDate;
   private String ssn;
+  private String phoneNumber;
   private String cellNumber;
   private String sex;
   private String maritalStatus;
   private String language;
   private String ethnicity;
-  private String referringPrimaryDiagnosis;
+  private String referringPrimaryDiagnosis;//pulled in from rn notes
   private String codeStatus;
   private String patientLives;
   private String commentType;
   private String comments;
-  private List<ProfileAllergiesDao> profileAllergiesDaos;
+  private Long statusId;//pulled in from somewhere
+  private List<ProfileAllergiesDao> profileAllergiesDaos;//not sure where this comes from
   private ProfileEmergencyContactDao profileEmergencyContactDao;
   private ProfileFuneralHomeDao profileFuneralHomeDao;
   private List<ProfileAgencyDao> profileAgencyDaos;
@@ -42,7 +44,7 @@ public class ProfilePatientDao {
   private List<ProfileInsuranceDao> profileInsuranceDaos;
   private List<ProfileCahpDao> profileCahpDaos;
   private Timestamp createDate;
-  private Enabled enabled;
+  private Enabled enabled = Enabled.UNSET;
   private String image;
 
   public Long getPatientId() {
@@ -168,6 +170,14 @@ public class ProfilePatientDao {
     this.ssn = ssn;
   }
 
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
   public String getCellNumber() {
     return cellNumber;
   }
@@ -246,6 +256,14 @@ public class ProfilePatientDao {
 
   public void setComments(String comments) {
     this.comments = comments;
+  }
+
+  public Long getStatusId() {
+    return statusId;
+  }
+
+  public void setStatusId(Long statusId) {
+    this.statusId = statusId;
   }
 
   public List<ProfileAllergiesDao> getProfileAllergiesDaos() {

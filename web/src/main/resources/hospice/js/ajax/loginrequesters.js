@@ -1,9 +1,8 @@
 var url = "userprofile";
 
 var profileUserEntity = {};
-profileUserEntity.loginName = "John";
-profileUserEntity.contactName  = "Snow";
-var jsonValue = JSON.stringify(profileUserEntity);
+profileUserEntity.loginName = "";
+profileUserEntity.password  = "";
 
 var newUrl='/userprofile/123';
 
@@ -34,7 +33,8 @@ function putRequests(uri, action2take){
     });
 }
 
-function postRequests(uri){
+function postRequests(uri, action2take){
+    var jsonValue = JSON.stringify(profileUserEntity);
     $.ajax({
         type : 'POST',
         url : uri,
@@ -45,26 +45,31 @@ function postRequests(uri){
             xhr.setRequestHeader("Authorization", "Bearer sessionId");
         },
         success: function(result){
-           alert(result);
+           action2take();
         },
         error : function(e) {
-            alert("ERROR: ", e);
+            action2take();
             console.log("ERROR: ", e);
         }
     });
 }
 
-function getRequests(uri){
+function getRequests(uri, action2take){
+    var jsonValue = JSON.stringify(profileUserEntity);
     $.ajax({
-        type : "GET",
+        type : 'GET',
         url : uri,
-        contentType : 'application/json',
-        headers : {'Authorization' : 'Bearer sessionId'},
+        data : jsonValue,
+        beforeSend: function(xhr) {
+            //xhr.setRequestHeader("Accept", "application/json");
+            //xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Authorization", "Bearer sessionId");
+        },
         success: function(result){
-           alert(result);
+           action2take();
         },
         error : function(e) {
-            alert("ERROR: ", e);
+            action2take();
             console.log("ERROR: ", e);
         }
     });

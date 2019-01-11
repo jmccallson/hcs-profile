@@ -17,4 +17,7 @@ public class ProfileUserService {
     return profileUserEntity;
   }
 
+  public String loginUser(String accessToken, String userName, String password){
+    return "";
+  }
 }

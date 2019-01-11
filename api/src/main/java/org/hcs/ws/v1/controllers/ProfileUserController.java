@@ -125,6 +125,28 @@ public class ProfileUserController {
     }
   }
 
+  @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader, //NOSONAR
+                                            @RequestBody String body,
+                                            WebRequest request)
+    throws ProfileUnauthorizedException, ProfileInvalidRequestException,ProfileExpiredSessionException,
+    ProfileNotFoundException {
+    String accessToken = ProfileUtil.getBearerToken(authHeader);
+    if (accessToken == null) {
+      throw new ProfileUnauthorizedException("No bearer token provided.  Caller is unauthorized.");
+    }
+
+    String userName = "";
+    String password = "";
+    String userAgent = request.getHeader(USER_AGENT);
+    String userAgentChain = request.getHeader(USER_AGENT_CHAIN);
+    LogstashMarker markers = getLogMarkers(userAgent, userAgentChain);
+    LOG.info(markers, "HCS-Security /userinfo (GET) endpoint success.");
+    String result = profileUserService.loginUser(accessToken, userName, password);
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
   @ExceptionHandler(value = {
     ProfileExpiredSessionException.class,
     ProfileInternalException.class,
