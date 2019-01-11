@@ -20,6 +20,11 @@
   width: auto;
 }
 
+.chart {
+  /*background: #cdb;*/
+  width: 100%;
+}
+
 .box-2 {
   background: #2db34a;
   float: left;

@@ -15,7 +15,7 @@ public class HomePageController {
     return modelAndView;
   }
 
-  @RequestMapping(value = "/agent", method = RequestMethod.GET)
+  @RequestMapping(value = "/clinician", method = RequestMethod.GET)
   public ModelAndView agent() {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("hospice/agent/agent_home.html");

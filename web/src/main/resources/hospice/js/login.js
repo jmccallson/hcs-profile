@@ -36,7 +36,7 @@ loginBtn.addEventListener('click',
         try{
             if(pswStr.length > 0 && usrnameStr.length > 0){
                 action = function(){
-                    window.location.replace('agent');
+                    window.location.replace('clinician');
                 };
                 putRequests("/userprofile", action)
             }

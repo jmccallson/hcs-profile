@@ -22,13 +22,13 @@
           <div class="overSelect"><input type="text" placeholder="Select a patient" id="myInput" onkeyup="filterFunction()"></div>
       </div>
       <div id="checkboxes">
-          <label for="1234" onclick="buildTab('1234')">
-              <img src="/images/avatar2.png" alt="home" class="avatar"><span id="1234">Yogi bear</span></label>
-          <label for="5678" onclick="buildTab('5678')">
+          <label for="1234" onclick="buildTab('1234', '/images/img_avatar.png')">
+              <img src="/images/img_avatar.png" alt="home" class="avatar"><span id="1234">Yogi bear</span></label>
+          <label for="5678" onclick="buildTab('5678', '/images/avatar2.png')">
               <img src="/images/avatar2.png" alt="home" class="avatar"><span id="5678">Jumping Jack</span></label>
-          <label for="9012" onclick="buildTab('9012')">
+          <label for="9012" onclick="buildTab('9012', '/images/avatar5.png')">
               <img src="/images/avatar5.png" alt="home" class="avatar"><span id="9012">Long Term Patient</span></label>
-          <label for="3456" onclick="buildTab('3456')">
+          <label for="3456" onclick="buildTab('3456', '/images/avatar6.png')">
               <img src="/images/avatar6.png" alt="home" class="avatar"><span id="3456">Who Is This Here</span></label>
       </div>
     </div>
@@ -36,32 +36,11 @@
 
   <div id="container" class="container">
       <div id="tabs">
-      <button id="tabagent" class="tablink" onclick="openPage('agent', this, '#3377ff')" >Agent</button>
       </div>
-      <div id="agent" class="left-tab-container">
-          <div id="filter-tab-content" class="left-tab-content box-set">
-              <div id="filter-div" class="filter">
-                  <button id="filter-button" class="accordion-left">Filters</button>
-                  <div id="filter-panel" class="panel">
-                      some text
-                  </div>
-              </div>
-              <!--div class="box-1">
-                  <button class="accordion">Filters</button>
-                  <div class="panel">
-                      some more text
-                  </div>
-                  <button class="accordion">Filters</button>
-                  <div class="panel">
-                      no text at all
-                  </div>
-              </div-->
-          </div>
-      </div>
-
   </div>
 </body>
 </html>
+
 <script language="JavaScript1.2" type="text/javascript" src="hospice/js/agent.js"></script>
 <script language="JavaScript1.2" type="text/javascript" src="hospice/js/html/tabs.js"></script>
 <script language="JavaScript1.2" type="text/javascript" src="hospice/js/html/accordions.js"></script>

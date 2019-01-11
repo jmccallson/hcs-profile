@@ -6,7 +6,7 @@ import net.logstash.logback.marker.LogstashMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hcs.ProfileUserService;
-import org.hcs.entities.ProfileUserDAO;
+import org.hcs.data.ProfileUserDao;
 import org.hcs.exceptions.*;
 import org.hcs.ws.v1.utils.ProfileUtil;
 import org.springframework.http.HttpStatus;
@@ -48,9 +48,9 @@ public class ProfileUserController {
   @RequestMapping(value = "/userprofile",  method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<Object> createUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
-                                                  @RequestBody ProfileUserDAO profileUserEntity,
+                                                  @RequestBody ProfileUserDao profileUserEntity,
                                                   WebRequest request)
-    throws ProfileExpiredSessionException, ProfileInvalidRequestException, ProfileNotFoundException, ProfileUnauthorizedException, ProfileAlreadyExistsException {
+    throws ProfileExpiredSessionException, ProfileInvalidRequestException, ProfileAlreadyExistsException {
     String sessionId = ProfileUtil.getBearerToken(authHeader);
     if(sessionId == null || sessionId.isEmpty()){
       throw new ProfileExpiredSessionException(NO_SESSION_ELEMENT_FOUND, new Throwable(ProfileUtil.UNAUTHORIZED_CONDITION_MSG));
@@ -59,7 +59,7 @@ public class ProfileUserController {
     if(null == profileUserEntity){
       throw new ProfileInvalidRequestException("Request body is null", new Throwable(ProfileUtil.INVALID_RQST_CONDITION_MSG));
     }
-    ProfileUserDAO newProfileUserData = profileUserService.create(sessionId, profileUserEntity);
+    ProfileUserDao newProfileUserData = profileUserService.create(sessionId, profileUserEntity);
 
     String userAgent = request.getHeader(USER_AGENT);
     String userAgentChain = request.getHeader(USER_AGENT_CHAIN);
@@ -93,7 +93,7 @@ public class ProfileUserController {
   @ResponseBody
   public void updateUserProfile(@RequestHeader("Authorization") String authHeader, //NOSONAR
                                 @PathVariable String userId,
-                                @RequestBody ProfileUserDAO profileUserDAO,
+                                @RequestBody ProfileUserDao profileUserDAO,
                                 WebRequest request)
     throws ProfileExpiredSessionException
   {

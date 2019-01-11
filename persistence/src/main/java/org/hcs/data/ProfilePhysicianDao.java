@@ -1,7 +1,7 @@
-package org.hcs.entities;
+package org.hcs.data;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfilePatientDAO {
+public class ProfilePhysicianDao {
 }

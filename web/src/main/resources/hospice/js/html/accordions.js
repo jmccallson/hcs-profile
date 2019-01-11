@@ -26,13 +26,30 @@ function accordionLeft(accountLeft){
             parent.style.top = "85px";
             parent.style.transform = "rotate(-90deg)";
             if (parent.id === "filter-tab-content") {
-                document.getElementById("filter-button").style.textAlign = "right";
-                document.getElementById("filter-button").innerHTML = "Show Filters";
+                document.getElementById("filterbttn").innerHTML = "";
+                document.getElementById("filterbttn").style.textAlign = "right";
+                var bttnTxtFilter = document.createTextNode("Show Filters");
+                document.getElementById("filterbttn").appendChild(bttnTxtFilter);
+                var bttnImgFilter = document.createElement("IMG");
+                bttnImgFilter.setAttribute("src", "/images/kfm.png");
+                bttnImgFilter.style.width = "20px";
+                bttnImgFilter.style.paddingLeft = "3px";
+                //bttnImgFilter.style.paddingRight = "3px";
+                bttnImgFilter.style.float = "right"
+                document.getElementById("filterbttn").appendChild(bttnImgFilter);
             }
             else {
                 var newid = parent.id.replace('formstab-content', '')
+                document.getElementById("formsbttn" + newid).innerHTML = "";
                 document.getElementById("formsbttn" + newid).style.textAlign = "right";
-                document.getElementById("formsbttn" + newid).innerHTML = "Show Forms";
+                var bttnTxtForms = document.createTextNode("Show Forms");
+                document.getElementById("formsbttn" + newid).appendChild(bttnTxtForms);
+                var bttnImgForms = document.createElement("IMG");
+                bttnImgForms.setAttribute("src", "/images/documents.png");
+                bttnImgForms.style.width = "20px";
+                bttnImgForms.style.paddingLeft = "3px";
+                bttnImgForms.style.float = "right"
+                document.getElementById("formsbttn" + newid).appendChild(bttnImgForms);
             }
 
         } else {
@@ -41,13 +58,31 @@ function accordionLeft(accountLeft){
             parent.style.top = "0px";
             parent.style.transform = "rotate(0deg)";
             if (parent.id === "filter-tab-content") {
-                document.getElementById("filter-button").style.textAlign = "left";
-                document.getElementById("filter-button").innerHTML = "Filters";
+                document.getElementById("filterbttn").innerHTML = "";
+                document.getElementById("filterbttn").style.textAlign = "left";
+                var bttnTxtFilter = document.createTextNode("Filters");
+                document.getElementById("filterbttn").appendChild(bttnTxtFilter);
+                var bttnImgFilter = document.createElement("IMG");
+                bttnImgFilter.setAttribute("src", "/images/kfm.png");
+                bttnImgFilter.style.width = "20px";
+                bttnImgFilter.style.paddingLeft = "3px";
+                bttnImgFilter.style.paddingRight = "3px";
+                bttnImgFilter.style.float = "left"
+                document.getElementById("filterbttn").appendChild(bttnImgFilter);
             }
             else {
                 var newid = parent.id.replace('formstab-content', '')
                 document.getElementById("formsbttn" + newid).style.textAlign = "left";
-                document.getElementById("formsbttn" + newid).innerHTML = "Forms";
+                document.getElementById("formsbttn" + newid).innerHTML = "";
+                var bttnTxtForms = document.createTextNode("Forms");
+                document.getElementById("formsbttn" + newid).appendChild(bttnTxtForms);
+                var bttnImgForms = document.createElement("IMG");
+                bttnImgForms.setAttribute("src", "/images/documents.png");
+                bttnImgForms.style.width = "20px";
+                bttnImgForms.style.paddingLeft = "3px";
+                bttnImgForms.style.paddingRight = "3px";
+                bttnImgForms.style.float = "left"
+                document.getElementById("formsbttn" + newid).appendChild(bttnImgForms);
             }
         }
     });
@@ -67,10 +102,17 @@ function accordionRight(accountRight){
             parent.style.width = "200px";
             parent.style.transform = "rotate(-90deg)";
             var newid = parent.id.replace('profiletab-content', '')
+            document.getElementById("profilebttn" + newid).innerHTML = "";
             document.getElementById("profilebttn" + newid).style.textAlign = "right";
             document.getElementById("profilebttn" + newid).style.width = "200px"
-            document.getElementById("profilebttn" + newid).innerHTML = "Show Patient Profile";
-
+            var bttnTxtProfile = document.createTextNode("Show Patient Profile");
+            document.getElementById("profilebttn" + newid).appendChild(bttnTxtProfile);
+            var bttnImgProfile = document.createElement("IMG");
+            bttnImgProfile.setAttribute("src", "/images/customer_info.png");
+            bttnImgProfile.style.width = "20px";
+            bttnImgProfile.style.paddingLeft = "3px";
+            bttnImgProfile.style.float = "right"
+            document.getElementById("profilebttn" + newid).appendChild(bttnImgProfile);
         } else {
             panel.style.display = "block";
             parent.style.left = "-10px";
@@ -79,9 +121,19 @@ function accordionRight(accountRight){
             subparent.style.width = "100%";
             parent.style.transform = "rotate(0deg)";
             var newid = parent.id.replace('profiletab-content', '')
+            document.getElementById("profilebttn" + newid).innerHTML = "";
             document.getElementById("profilebttn" + newid).style.textAlign = "left";
             document.getElementById("profilebttn" + newid).style.width = "100%";
-            document.getElementById("profilebttn" + newid).innerHTML = "Patient Profile";
+            var bttnImgProfile = document.createElement("IMG");
+            bttnImgProfile.setAttribute("src", "/images/customer_info.png");
+            bttnImgProfile.style.width = "20px";
+            bttnImgProfile.style.paddingLeft = "3px";
+            bttnImgProfile.style.paddingRight = "3px";
+            bttnImgProfile.style.float = "left";
+            document.getElementById("profilebttn" + newid).appendChild(bttnImgProfile);
+            var bttnTxtProfile = document.createTextNode("Patient Profile");
+            document.getElementById("profilebttn" + newid).appendChild(bttnTxtProfile);
+
         }
     });
 }
@@ -112,5 +164,5 @@ for (j = 0; j < accleft.length; j++) {
 }
 */
 
-accordionLeft(document.getElementById("filter-button"));
-document.getElementById("filter-button").click();
+accordionLeft(document.getElementById("filterbttn"));
+document.getElementById("filterbttn").click();
