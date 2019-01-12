@@ -12,6 +12,7 @@ public class ProfileCahpDao {
   private String lastNameLc;
   private String middleName;
   private String middleNameLc;
+  private String address;
   private String suiteApt;
   private String city;
   private String state;
@@ -80,6 +81,14 @@ public class ProfileCahpDao {
 
   public void setMiddleNameLc(String middleNameLc) {
     this.middleNameLc = middleNameLc;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public String getSuiteApt() {

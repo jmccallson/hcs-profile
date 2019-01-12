@@ -136,14 +136,14 @@ public class ProfilePatientDao {
   }
 
   public String getVeteran() {
-    if (enabled != Enabled.UNSET) {
-      return enabled.getState();
+    if (veteran != Enabled.UNSET) {
+      return veteran.getState();
     }
     return "F";
   }
 
   public void setVeteran(String veteran) {
-    this.enabled = null != enabled ? Enabled.getByValue(veteran) : Enabled.UNSET;
+    this.veteran = null != veteran ? Enabled.getByValue(veteran) : Enabled.UNSET;
   }
 
   public Timestamp getBirthDate() {
